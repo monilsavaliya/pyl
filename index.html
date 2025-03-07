@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PYL101 Course Material</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Course materials and tutorials for PYL101.">
+        <meta name="author" content="Monil">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    
+        
+        <style>
+        body {
+            background-image: url("https://imgs.search.brave.com/bv90bmNenzTPJoDGaHxdwNfhsAAGhl7yXyhYD-yhu-Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC96dWlIWDBL/LmpwZw");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: white;
+        }
+    
+        h1, h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+    
+        h1 {
+            font-size: 3em;
+            color: #FFD700;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7), 0 0 20px #FF4500;
+            animation: glow 1.5s infinite alternate;
+            background: linear-gradient(90deg, #FF6347, #FFD700, #32CD32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    
+        h2 {
+            font-size: 2em;
+        }
+    
+        .dropdown {
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: margin-bottom 0.3s ease;
+            width: 90%; /* Adjust width for smaller screens */
+            max-width: 800px; /* Limit the maximum width */
+        }
+    
+        .dropdown-header {
+            padding: 12px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: #62a4e9;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+    
+        .dropdown-header:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            background-color: rgba(26, 86, 135, 0.8);
+            transition: max-height 0.5s ease;
+        }
+    
+        .dropdown-content.open {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            background-color: #0a5068;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    
+        .dropdown-content a:hover {
+            background-color: #0056b3;
+        }
+    
+        .dropdown-content::-webkit-scrollbar {
+            width: 6px;
+        }
+    
+        .dropdown-content::-webkit-scrollbar-thumb {
+            background-color: #62a4e9;
+            border-radius: 10px;
+        }
+    
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .dropdown-header {
+                font-size: 1em; /* Reduce font size for smaller screens */
+            }
+    
+            .dropdown-content a {
+                font-size: 0.9em; /* Reduce link size for smaller screens */
+                padding: 8px; /* Reduce padding for smaller screens */
+            }
+    
+            h1 {
+                font-size: 2em; /* Adjust heading size for smaller screens */
+            }
+    
+            h2 {
+                font-size: 1.5em; /* Adjust subheading size for smaller screens */
+            }
+        }
+    </style>
+    
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const outerDropdowns = document.querySelectorAll('.dropdown.outer');
+    
+                outerDropdowns.forEach(outer => {
+                    const outerHeader = outer.querySelector('.dropdown-header');
+                    const outerContent = outer.querySelector('.dropdown-content');
+    
+                    outerHeader.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const isOpen = outerContent.classList.contains('open');
+                        closeAllDropdowns();
+                        if (!isOpen) {
+                            outerContent.classList.add('open');
+                        }
+                    });
+    
+                    const innerDropdowns = outer.querySelectorAll('.dropdown.inner');
+                    innerDropdowns.forEach(inner => {
+                        const innerHeader = inner.querySelector('.dropdown-header');
+                        const innerContent = inner.querySelector('.dropdown-content');
+    
+                        innerHeader.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            const isOpen = innerContent.classList.contains('open');
+                            closeInnerDropdowns(outer);
+                            if (!isOpen) {
+                                innerContent.classList.add('open');
+                            }
+                        });
+    
+                        const innerMostDropdowns = inner.querySelectorAll('.dropdown.inner-most');
+                        innerMostDropdowns.forEach(innerMost => {
+                            const innerMostHeader = innerMost.querySelector('.dropdown-header');
+                            const innerMostContent = innerMost.querySelector('.dropdown-content');
+    
+                            innerMostHeader.addEventListener('click', (event) => {
+                                event.stopPropagation();
+                                const isOpen = innerMostContent.classList.contains('open');
+                                closeInnerMostDropdowns(inner);
+                                if (!isOpen) {
+                                    innerMostContent.classList.add('open');
+                                }
+                            });
+                        });
+                    });
+                });
+    
+                function closeAllDropdowns() {
+                    document.querySelectorAll('.dropdown-content').forEach(content => {
+                        content.classList.remove('open');
+                    });
+                }
+    
+                function closeInnerDropdowns(outer) {
+                    outer.querySelectorAll('.dropdown.inner .dropdown-content').forEach(content => {
+                        content.classList.remove('open');
+                    });
+                }
+    
+                function closeInnerMostDropdowns(inner) {
+                    inner.querySelectorAll('.dropdown.inner-most .dropdown-content').forEach(content => {
+                        content.classList.remove('open');
+                    });
+                }
+    
+                document.addEventListener('click', () => {
+                    closeAllDropdowns();
+                });
+            });
+        </script>
+    </head>
+<body>
+    <h1><a href="https://dalla111.github.io/homepage/" ><img src="https://jwalamukhi.iitd.ac.in/images/Jwala_logo_extra_small_2.png" alt="Logo" ></a>PYL101 Course Material</h1>
+
+    <div class="dropdown outer">
+        <div class="dropdown-header">SEM-2 | LECTURES - SUJIN BABU</div>
+        <div class="dropdown-content">
+            <a href="https://drive.google.com/file/d/1a7cPebl-PV-XnwYIXJqJx_0fop3xwSqZ/view?usp=drive_link" target="_blank">lecture2-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/15DanqhITuB2mW2V0iR0uSsbJDIlh5uVr/view?usp=drive_link" target="_blank">lecture3-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/10ndYfkdNGxmsFWQI1PgAT1moQcFbIrbB/view?usp=drive_link" target="_blank">lecture4-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1Tl1lE6vr1mI2Z-U3lL4Qpu8BYwbh0qov/view?usp=drive_link" target="_blank">lecture5-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/15HVidAlV4qDCvKNHQ78CdwpKv6-E4TCf/view?usp=drive_link" target="_blank">lecture6-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1I2hDu_vMSNTDeca3bC1lBNuZyZmuHlbp/view?usp=drive_link" target="_blank">lecture7-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1EjLhPBhVUFf2BUoQLwZ90EpGfmQ0BKPr/view?usp=drive_link" target="_blank">lecture8-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1AckpAjiJa0PGUpCvVUt0yvomO6aT6ezf/view?usp=drive_link" target="_blank">lecture9-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1Uk0TaDQgRU2GIYrWZ557fmr88sF786Sy/view?usp=drive_link" target="_blank">lecture10-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1zYj9VQFeQzdcQUf7tjFoad10DRehOStc/view?usp=drive_link" target="_blank">lecture11-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1kTCFabN6yFv4rhLM5V3Sghc-QBRbWa0V/view?usp=drive_link" target="_blank">lecture12-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1fRJyo7ApMayD7rR40Je2Gx0r_BLc9jGH/view?usp=drive_link" target="_blank">lecture13-sujin.pdf</a>
+            <a href="https://drive.google.com/file/d/1EIIQXGY3zSvN3l-sXlaJiVw1fN8W-vwB/view?usp=drive_link" target="_blank">PYL101_JG_Introduction.pdf</a>
+
+            
+        </div>
+    </div>
+    <div class="dropdown outer">
+        <div class="dropdown-header">SEM-2 | LECTURES - AGNIHOTRI</div>
+        <div class="dropdown-content">
+            <a href="https://drive.google.com/file/d/1_cs24lryOacogzfU668LFgLPJhnosNQf/view?usp=drive_link" target="_blank">2402-Lecture-2_Agnihotri.pdf</a>
+            <a href="https://drive.google.com/file/d/1r1646lZm5vnCJoND0HBq4K3G0XdtCGLg/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-3_Agnihotri.pdf</a>
+            <a href="https://drive.google.com/file/d/1LVOC_dhFfKMj-aOpGZuiGQNp8MSBi4_W/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-4_Agnihotri.pdf</a>
+            <a href="https://drive.google.com/file/d/1YHJiuu0QH94zL69SyPSByxIjZpMHLZx9/view?usp=drive_link" target="_blank">Lecture-5_Agnihotri-20250307.zip</a>
+            <a href="https://drive.google.com/file/d/1f9oiVdTmW2m0B6bH8o8CbzYxwZmQva_Y/view?usp=drive_link" target="_blank">Agnihotri-Lecture-6.pdf</a>
+            <a href="https://drive.google.com/file/d/1dr4TLzQSJUt59gGyGNxrBD0OlMIcUQ63/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-7_Agnihotri.pdf</a>
+            <a href="https://drive.google.com/file/d/1VW7DzyzTQM2ydzGMKQF87NaCWDfiWw_D/view?usp=drive_link" target="_blank">Lecture-8_Agnihotri.pdf</a>
+            <a href="https://drive.google.com/file/d/16Ik-H6cgHqmycHwrzJjzKTHa2z9wcmyu/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-9_Agnihotri.pdf</a>
+            <a href="https://drive.google.com/file/d/1yiuSMSifRj9-koW4QuMxFDSZx5ijkfFk/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-10.pdf</a>
+            <a href="https://drive.google.com/file/d/1VIlOLFQeyUYLWLKr6yAVkKP8HR95JA-A/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-11.pdf</a>
+            <a href="https://drive.google.com/file/d/1Pcz6ZEjZXjBwFhSbOqQsAzsRf9XnreWp/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-12.pdf</a>
+            <a href="https://drive.google.com/file/d/1FJvcAM0ZJjpHLIliV5WI0A2_dT7Zi28N/view?usp=drive_link" target="_blank">2402-PYL101_Lecture-13.pdf</a>
+            <a href="https://drive.google.com/file/d/1Z5gq549SHRQjhR0u78-O7Jxta4wOoJgR/view?usp=drive_link" target="_blank">Lecture-14_Agnihotri-20250307.zip</a>
+            <a href="https://drive.google.com/file/d/1XJaljZSWUqqswLDqPh0pytJcelxQo5lJ/view?usp=drive_link" target="_blank">PYL101_JG_Introduction (1).pdf</a>
+
+
+            
+        </div>
+    </div>
+    <div class="dropdown outer">
+        <div class="dropdown-header">SEM-2 | TUTORIALS</div>
+        <div class="dropdown-content">
+            <a href="https://drive.google.com/file/d/1RDj9u_MEvp9Zoi1IAq3EwjN6lOhC6uLc/view?usp=drive_link" target="_blank">2402-PYL101_Tutorial-1.pdf</a>
+            <a href="https://drive.google.com/file/d/1xEibxD3ZCk9Wph5ZuO1sxQ4egFbzLxti/view?usp=drive_link" target="_blank">2402-PYL101_Tutorial-2.pdf</a>
+            <a href="https://drive.google.com/file/d/19TeWNSSWc3yEnjgZ49vksup29GU7TW3B/view?usp=drive_link" target="_blank">2402-PYL101_Tutorial-3.pdf</a>
+            <a href="https://drive.google.com/file/d/1smZSL-XxXatWxeh3hrEcwBqrK_p_bjM3/view?usp=drive_link" target="_blank">2402-PYL101_Tutorial-4.pdf</a>
+            <a href="https://drive.google.com/file/d/1J5AFpGDNm6CfDYUxODnfTlIKcxCWeYf0/view?usp=drive_link" target="_blank">2402-PYL101_Tutorial-5.pdf</a>
+            <a href="https://drive.google.com/file/d/1-bjEF4LiIbNYqOpIuwu1i5RPVU7Xii2L/view?usp=drive_link" target="_blank">2402-PYL101_Tutorial-6.pdf</a>
+            <a href="https://drive.google.com/file/d/1TDmYCFcEKZ4Gep-BiPx3dq6XlVLzv-XO/view?usp=drive_link" target="_blank">Formula_Sheet_2402-PYL101_Midterm.pdf</a>
+
+                        
+        </div>
+    </div>
+    
+    
+    <footer>
+        <p><a href="mailto:atulnigam087@gmail.com">FOR ANY CHANGES CONTACT</a></p>
+        <p>&copy; 2025 ALL RIGHTS RESERVED</p>
+    </footer>
+</body>
+</html>
+
+
